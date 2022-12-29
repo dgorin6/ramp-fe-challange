@@ -1,16 +1,13 @@
-import { useCallback, useContext } from "react"
+import { useCallback } from "react"
 import { useCustomFetch } from "src/hooks/useCustomFetch"
-import { AppContext } from "src/utils/context"
 import { SetTransactionApprovalParams } from "src/utils/types"
 import { TransactionPane } from "./TransactionPane"
 import { SetTransactionApprovalFunction, TransactionsComponent } from "./types"
 
 export const Transactions: TransactionsComponent = ({ transactions }) => {
   const { fetchWithoutCache, loading } = useCustomFetch()
-  const {cache} = useContext(AppContext);
   const setTransactionApproval = useCallback<SetTransactionApprovalFunction>(
     async ({ transactionId, newValue }) => {
-      cache?.current.clear();
       await fetchWithoutCache<void, SetTransactionApprovalParams>("setTransactionApproval", {
         transactionId,
         value: newValue,
